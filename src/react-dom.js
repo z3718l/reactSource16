@@ -27,7 +27,13 @@ function createDom(vDom) {
   // let dom = document.createElement(type);
   // 处理dom
   if (typeof type === 'function') {
-    return mountFunctionComponent(vDom);
+    // console.log(type.prototype.isReactComponent);
+    if (type.prototype.isReactComponent) {
+      // 类组件
+      return mountClassComponent(vDom);
+    } else {
+      return mountFunctionComponent(vDom);
+    }
   } else {
     // 原生组件
     dom = document.createElement(type);
@@ -66,6 +72,26 @@ function mountFunctionComponent(vDOM) {
    */
   let renderDom = type(props);
   return createDom(renderDom);
+}
+
+/**
+ * 1、创建类组件的实例
+ * 2、调用类组件实例的render方法获得返回的虚拟dom
+ * 3、把返回的虚拟dom转换成真实dom进行挂载
+ * @param {*} vDOM 类型为类组件的虚拟dom
+ */
+function mountClassComponent(vDOM) {
+  // 解构类组件中的属性
+  const {type, props} = vDOM;
+  // 创建类的实例
+  let classInstance = new type(props);
+  // 调用实例的render方法返回要渲染的虚拟dom对象
+  let renderDom = classInstance.render();
+  // 根据虚拟dom对象创建真实的dom对象
+  let dom = createDom(renderDom);
+  // classInstance.dom = dom; // 为了后面dom比较用
+  // 返回dom
+  return dom;
 }
 
 function reconcileChildren(childrenVDom, parentDom) {

@@ -1,15 +1,15 @@
 import React from "./react";
 import ReactDom from "./react-dom";
 
-// class App extends React.Component {
-//   render() {
-//     return <div>hello word12</div>;
-//   }
-// }
-
-function FunctionComponent () {
-  return <div>hello word12</div>;
+class App extends React.Component {
+  render() {
+    return <div>hello word class组件</div>;
+  }
 }
+
+// function FunctionComponent () {
+//   return <div>hello word12</div>;
+// }
 
 // const jsx = (
 //   <div className="title" style={{ color: "red" }}>
@@ -18,4 +18,4 @@ function FunctionComponent () {
 // );
 // console.log(jsx, '==>>>jsx');
 // ReactDom.render(jsx, document.getElementById("root"));
-ReactDom.render(<FunctionComponent />, document.getElementById("root"));
+ReactDom.render(<App />, document.getElementById("root"));
