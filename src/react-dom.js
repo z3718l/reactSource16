@@ -23,7 +23,15 @@ function createDom(vDom) {
   }
   // 否则就是一个虚拟DOM
   let { type, props } = vDom;
-  let dom = document.createElement(type);
+  let dom;
+  // let dom = document.createElement(type);
+  // 处理dom
+  if (typeof type === 'function') {
+    return mountFunctionComponent(vDom);
+  } else {
+    // 原生组件
+    dom = document.createElement(type);
+  }
   // 更新属性
   updateProps(dom, props);
   //   单独处理children
@@ -43,6 +51,21 @@ function createDom(vDom) {
     reconcileChildren(props.children, dom);
   }
   return dom;
+}
+
+/**
+ * 把一个类型为自定义的函数组件的虚拟dom转换成真实dom 并返回
+ * @param {*} vDOM 类型定义为函数组件的虚拟dom
+ */
+function mountFunctionComponent(vDOM) {
+  const { type, props } = vDOM;
+  // 接受一个dom
+  /**
+   * 1、把函数执行一下，得到自定义函数组件的虚拟dom
+   * 2、重新将虚拟dom转换成真实dom
+   */
+  let renderDom = type(props);
+  return createDom(renderDom);
 }
 
 function reconcileChildren(childrenVDom, parentDom) {
