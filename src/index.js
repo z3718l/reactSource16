@@ -2,8 +2,16 @@ import React from "./react";
 import ReactDom from "./react-dom";
 
 class App extends React.Component {
+
+  handleClick = () => {
+    console.log('点击打印');
+  }
   render() {
-    return <div>hello word class组件</div>;
+    return (
+      <div>hello word class组件
+        <button onClick={this.handleClick}>+</button>
+      </div>
+    )
   }
 }
 

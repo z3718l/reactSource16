@@ -22,7 +22,10 @@ function createDom(vDom) {
     return document.createTextNode(vDom);
   }
   // 否则就是一个虚拟DOM
-  let { type, props } = vDom;
+  let {
+    type,
+    props
+  } = vDom;
   let dom;
   // let dom = document.createElement(type);
   // 处理dom
@@ -64,7 +67,10 @@ function createDom(vDom) {
  * @param {*} vDOM 类型定义为函数组件的虚拟dom
  */
 function mountFunctionComponent(vDOM) {
-  const { type, props } = vDOM;
+  const {
+    type,
+    props
+  } = vDOM;
   // 接受一个dom
   /**
    * 1、把函数执行一下，得到自定义函数组件的虚拟dom
@@ -82,7 +88,10 @@ function mountFunctionComponent(vDOM) {
  */
 function mountClassComponent(vDOM) {
   // 解构类组件中的属性
-  const {type, props} = vDOM;
+  const {
+    type,
+    props
+  } = vDOM;
   // 创建类的实例
   let classInstance = new type(props);
   // 调用实例的render方法返回要渲染的虚拟dom对象
@@ -123,6 +132,11 @@ function updateProps(dom, newProps) {
       for (let attr in styleObj) {
         dom.style[attr] = styleObj[attr];
       }
+    } else if (key.startsWith('on')) {
+      // 原生js给dom添加事件
+      // dom.onclick = function (){};
+      let handleEvent = key.toLowerCase();
+      dom[handleEvent] = newProps[key];
     } else {
       // 将className属性挂载到dom上
       /**
