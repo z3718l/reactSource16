@@ -16,7 +16,7 @@ function render(vDom, container) {
  * 将虚拟dom转换为真实dom
  * @param {*} vDOM 虚拟dom
  */
-function createDom(vDom) {
+export function createDom(vDom) {
   // 如果vDom是string或者是number，直接返回一个真实的文本节点
   if (typeof vDom === "string" || typeof vDom === "number") {
     return document.createTextNode(vDom);
@@ -98,7 +98,7 @@ function mountClassComponent(vDOM) {
   let renderDom = classInstance.render();
   // 根据虚拟dom对象创建真实的dom对象
   let dom = createDom(renderDom);
-  // classInstance.dom = dom; // 为了后面dom比较用
+  classInstance.dom = dom; // 为了后面dom比较用
   // 返回dom
   return dom;
 }
